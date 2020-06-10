@@ -1,0 +1,17 @@
+# package directories
+node_modules
+jspm_packages
+
+# Serverless directories
+.serverless
+.env
+env.json
+
+# Webpack directories
+.webpack
+
+# others
+.idea
+
+.DS_STORE
+.env.production
