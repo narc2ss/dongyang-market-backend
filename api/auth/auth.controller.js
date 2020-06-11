@@ -10,7 +10,6 @@ import generateCode from "../../lib/emailAuth";
 dotenv.config();
 
 export const register = async (req, res, next) => {
-  res.sendStatus(200);
   try {
     const { reqUserId, reqUserPassword, reqUserEmail } = req.body;
 

@@ -1,9 +1,9 @@
 import fs from "fs";
 import Sequelize from "sequelize";
 import path from "path";
-import { development } from "../config/config";
+import { development, test } from "../config/config";
 
-const config = development;
+const config = process.env.NODE_ENV === "development" ? development : test;
 const basename = path.basename(__filename);
 const db = {};
 const sequelize = new Sequelize(

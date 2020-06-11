@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "NODE_ENV=development nodemon src/index.js --exec babel-node",
     "start": "NODE_ENV=test babel-node src/index.js",
-    "test": "NODE_ENV=test jest"
+    "test": "NODE_ENV=test jest --detectOpenHandles --forceExit"
   },
   "dependencies": {
     "@babel/polyfill": "^7.10.1",

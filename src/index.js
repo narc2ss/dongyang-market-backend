@@ -16,8 +16,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-db.sequelize.sync();
-// db.sequelize.sync({ force: true });
+if (process.env.NODE_ENV === "development") {
+  db.sequelize.sync();
+} else {
+  db.sequelize.sync({ force: true });
+}
 
 app.use(jwtMiddleware);
 app.use("/api", api);
