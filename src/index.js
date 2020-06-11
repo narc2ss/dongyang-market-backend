@@ -1,3 +1,4 @@
+import "@babel/polyfill";
 import dotenv from "dotenv";
 import express from "express";
 import cookieParser from "cookie-parser";
@@ -20,6 +21,9 @@ db.sequelize.sync();
 
 app.use(jwtMiddleware);
 app.use("/api", api);
+app.get("/", (req, res, next) => {
+  res.send("ok");
+});
 
 app.listen(4000, () => console.log(`server is running on port ${port}`));
 
