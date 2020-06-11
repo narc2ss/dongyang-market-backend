@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 import express from "express";
-import serverless from "serverless-http";
 import cookieParser from "cookie-parser";
 
 import api from "../api";
@@ -22,8 +21,6 @@ db.sequelize.sync();
 app.use(jwtMiddleware);
 app.use("/api", api);
 
-if (process.env.NODE_ENV === "development") {
-  app.listen(4000, () => console.log(`server is running on port ${port}`));
-}
+app.listen(4000, () => console.log(`server is running on port ${port}`));
 
-export const handler = serverless(app);
+export default app;
