@@ -143,7 +143,8 @@ export const login = async (req, res) => {
   try {
     token = await generateToken({ userId });
   } catch (e) {
-    res.status(500).send(e);
+    console.error(e);
+    next(e);
   }
 
   res.cookie("access_token", token, {

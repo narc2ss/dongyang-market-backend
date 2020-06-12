@@ -8,6 +8,7 @@ const development = {
   database: process.env.MYSQL_DEV_DATABASE,
   host: process.env.MYSQL_DEV_HOST,
   dialect: process.env.MYSQL_DEV_DIALECT,
+  port: process.env.MYSQL_DEV_PORT,
 };
 const production = {
   username: process.env.MYSQL_USERNAME,
