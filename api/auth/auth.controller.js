@@ -152,7 +152,10 @@ export const login = async (req, res) => {
     maxAge: 1000 * 60 * 60 * 24 * 7,
   });
 
-  res.status(200).json({ id, userId, userProfileImage });
+  res
+    .status(200)
+    .json({ id, userId, userProfileImage })
+    .redirect(`${process.env.FRONT_URL}`);
 };
 
 export const exists = async (req, res) => {
