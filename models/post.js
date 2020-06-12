@@ -16,6 +16,10 @@ export default (sequelize) => {
         type: Sequelize.STRING(140),
         allowNull: false,
       },
+      postImages: {
+        type: Sequelize.STRING(100),
+        allowNull: false,
+      },
       postState: {
         type: Sequelize.ENUM("판매중", "예약중", "거래완료"),
         allowNull: false,

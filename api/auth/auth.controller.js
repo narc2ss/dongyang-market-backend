@@ -128,12 +128,13 @@ export const login = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(500).send(err);
+    console.error(err);
+    next(err);
   }
   if (!account)
     return res.status(403).json({ result: "존재하지 않는 아이디 입니다." });
 
-  const { userId, userPassword } = account;
+  const { id, userId, userPassword, userProfileImage } = account;
   const validatePassword = await bcrypt.compare(reqUserPassword, userPassword);
   if (!validatePassword)
     return res.status(403).json({ result: "비밀번호가 일치하지 않습니다." });
@@ -150,7 +151,7 @@ export const login = async (req, res) => {
     maxAge: 1000 * 60 * 60 * 24 * 7,
   });
 
-  res.status(200).json({ result: { message: account } });
+  res.status(200).json({ id, userId, userProfileImage });
 };
 
 export const exists = async (req, res) => {
@@ -158,12 +159,14 @@ export const exists = async (req, res) => {
 
   let account = null;
   try {
-    account = await (key === "email"
+    account = await (key === "userEmail"
       ? db.User.findOne({ where: { userEmail: value } })
       : db.User.findOne({ where: { userId: value } }));
   } catch (error) {
     res.status(500).json({ result: error });
   }
+  if (!account) res.json({ message: "사용자가 존재하지 않습니다." });
+
   const { userId, userProfileImage } = account;
   res.status(200).json({
     result: {
