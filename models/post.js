@@ -23,6 +23,7 @@ export default (sequelize) => {
       postState: {
         type: Sequelize.ENUM("판매중", "예약중", "거래완료"),
         allowNull: false,
+        defaultValue: "판매중",
       },
     },
     {

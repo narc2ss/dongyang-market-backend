@@ -1,14 +1,7 @@
 import db from "../../models";
 
 export const createPost = async (req, res, next) => {
-  const {
-    id,
-    postTitle,
-    postPrice,
-    postDescription,
-    postImages,
-    postState,
-  } = req.body;
+  const { id, postTitle, postPrice, postDescription, postImages } = req.body;
 
   let user = null;
 
@@ -31,7 +24,6 @@ export const createPost = async (req, res, next) => {
       postPrice,
       postDescription,
       postImages,
-      postState,
       UserId: id,
     });
     await res.json({ message: "게시글 등록 완료" });
@@ -103,7 +95,7 @@ export const updatePost = async (req, res, next) => {
 };
 
 export const deletePost = async (req, res, next) => {
-  const id = req.params;
+  const { id } = req.body;
 
   try {
     await db.Post.destroy({

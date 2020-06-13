@@ -7,6 +7,6 @@ const post = express();
 post.post("/", createPost);
 post.get("/", getPost);
 post.patch("/", updatePost);
-post.delete("/:id", deletePost);
+post.delete("/", deletePost);
 
 export default post;
