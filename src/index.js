@@ -16,7 +16,7 @@ const port = process.env.PORT;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({ origin: process.env.FRONT_URL }));
 
 if (process.env.NODE_ENV === "development") {
   db.sequelize.sync();

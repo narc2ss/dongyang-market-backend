@@ -12,6 +12,7 @@ env.json
 
 # others
 .idea
+.http
 
 .DS_STORE
 .env.production
