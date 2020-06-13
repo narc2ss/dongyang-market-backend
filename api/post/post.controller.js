@@ -10,6 +10,21 @@ export const createPost = async (req, res, next) => {
     postState,
   } = req.body;
 
+  let user = null;
+
+  try {
+    user = db.User.findOne({
+      where: {
+        id,
+      },
+    });
+  } catch (error) {
+    console.error(e);
+    next(e);
+  }
+
+  if (!user) res.status(204).json({ message: "존재하지 않는 사용자 입니다." });
+
   try {
     await db.Post.create({
       postTitle,
