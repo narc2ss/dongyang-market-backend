@@ -15,4 +15,4 @@ app.use(router.routes()).use(router.allowedMethods());
 
 router.use("/api", api.routes());
 
-app.listen(PORT, () => console.log(`server is running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
