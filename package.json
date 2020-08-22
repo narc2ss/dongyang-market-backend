@@ -15,7 +15,9 @@
     "koa": "^2.13.0",
     "koa-bodyparser": "^4.3.0",
     "koa-morgan": "^1.0.1",
-    "koa-router": "^9.4.0"
+    "koa-router": "^9.4.0",
+    "mariadb": "^2.4.2",
+    "sequelize": "^6.3.4"
   },
   "devDependencies": {
     "nodemon": "^2.0.4",
