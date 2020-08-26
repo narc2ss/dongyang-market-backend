@@ -1,11 +1,11 @@
-import { Model, DataTypes } from "sequelize";
+import { Model, DataTypes, NOW } from "sequelize";
 import { sequelize } from "./sequelize";
 import { dbType } from ".";
 
 class User extends Model {
   public readonly id!: number;
   public nickname!: string;
-  public userId!: string;
+  public email!: string;
   public password!: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -15,9 +15,11 @@ User.init(
   {
     nickname: {
       type: DataTypes.STRING(20),
+      allowNull: false,
+      unique: true,
     },
-    userId: {
-      type: DataTypes.STRING(20),
+    email: {
+      type: DataTypes.STRING(40),
       allowNull: false,
       unique: true,
     },

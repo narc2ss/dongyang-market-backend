@@ -7,16 +7,20 @@
     "start": "nodemon --watch src --exec 'ts-node' src/index.ts"
   },
   "dependencies": {
+    "@types/bcrypt": "^3.0.0",
     "@types/koa": "^2.11.4",
     "@types/koa-bodyparser": "^4.3.0",
     "@types/koa-morgan": "^1.0.4",
     "@types/koa-router": "^7.4.1",
+    "@types/nodemailer": "^6.4.0",
+    "bcrypt": "^5.0.0",
     "dotenv": "^8.2.0",
     "koa": "^2.13.0",
     "koa-bodyparser": "^4.3.0",
     "koa-morgan": "^1.0.1",
     "koa-router": "^9.4.0",
     "mariadb": "^2.4.2",
+    "nodemailer": "^6.4.11",
     "sequelize": "^6.3.4"
   },
   "devDependencies": {

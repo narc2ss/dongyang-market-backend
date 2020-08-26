@@ -5,6 +5,7 @@ import * as morgan from "koa-morgan";
 
 import api from "./api";
 import { sequelize } from "../models";
+import bodyParser = require("koa-bodyparser");
 
 dotenv.config();
 const PORT = process.env.PORT || 4000;
@@ -13,6 +14,7 @@ const app = new Koa();
 const router = new Router();
 
 app.use(morgan("dev"));
+app.use(bodyParser());
 sequelize
   .sync({ force: false })
   .then(() => console.log("Success to connected database"))
