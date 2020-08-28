@@ -50,33 +50,37 @@ export const exists = async (ctx: Context) => {
 export const email = async (ctx: Context) => {
   const { email } = ctx.request.body;
   const { EMAIL_SERVICE, EMAIL_ID, EMAIL_PASSWORD } = process.env;
-  console.log(EMAIL_PASSWORD, EMAIL_ID, EMAIL_SERVICE);
+  const code = await generateCode();
+  try {
+    const smtpTransport = nodemailer.createTransport({
+      service: EMAIL_SERVICE,
+      auth: {
+        user: EMAIL_ID,
+        pass: EMAIL_PASSWORD,
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
 
-  const smtpTransport = nodemailer.createTransport({
-    service: EMAIL_SERVICE,
-    auth: {
-      user: EMAIL_ID,
-      pass: EMAIL_PASSWORD,
-    },
-    tls: {
-      rejectUnauthorized: false,
-    },
-  });
+    const mailOptions = {
+      from: `동양마켓 <${EMAIL_ID}>`,
+      to: email,
+      subject: "동양마켓 이메일 인증",
+      html: `
+        <h1 style="font-family: sans-serif;">안녕하세요 동양마켓 입니다.</h1>
+        <p style="font-family: sans-serif;">전송된 6자리 코드를 확인 후 이메일 인증 절차를 진행해주세요</p>
+        <p style="font-family: sans-serif;">${code}</p>
+      `,
+    };
+    await smtpTransport.sendMail(mailOptions);
+    smtpTransport.close();
+  } catch (error) {
+    ctx.throw(500, error);
+  }
 
-  const emailCode = await generateCode();
-
-  const mailOptions = {
-    from: EMAIL_ID,
-    to: email,
-    subject: "nodemailer test",
-    text: `
-    안녕하세요 동양마켓 팀 입니다. 전송된 6자리 코드를 확인 후 이메일 인증 절차를 진행해주세요
-    인증코드 : ${emailCode}
-    `,
-  };
-
-  await smtpTransport.sendMail(mailOptions);
   ctx.status = 200;
+  ctx.body = { result: code };
 };
 
 export const logout = async (ctx: Context) => {
