@@ -11,22 +11,25 @@ dotenv.config();
 
 export const localRegister = async (ctx: Context) => {
   const { nickname, email, password } = ctx.request.body;
+
   try {
     const existsUser = await User.findOne({
       where: { nickname },
     });
+    if (existsUser) {
+      ctx.status = 409;
+      ctx.body = { result: "이미 사용중인 닉네임입니다." };
+      return;
+    }
+
     const existsEmail = await User.findOne({
       where: { email },
     });
-    if (existsUser) {
-      ctx.status = 409;
-      ctx.body = "이미 사용중인 아이디입니다.";
-      return;
-    }
     if (existsEmail) {
       ctx.status = 409;
-      ctx.body = "이미 사용중인 이메일입니다.";
+      ctx.body = { result: "이미 사용중인 이메일입니다." };
     }
+
     const hashedPassword = await bcrypt.hash(password, 12);
     const account = await User.create({
       nickname,
@@ -36,24 +39,54 @@ export const localRegister = async (ctx: Context) => {
 
     delete account.password;
     delete account.email;
-
-    let token = await generateToken(account);
-
-    console.log(token);
-
+    const token = await generateToken(account);
     ctx.cookies.set("access_token", token as string, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
     });
-    ctx.status = 201;
-    ctx.body = "회원가입이 완료되었습니다.";
   } catch (e) {
     ctx.throw(500, e);
   }
+  ctx.status = 201;
+  ctx.body = { result: "회원가입이 완료되었습니다." };
+  return;
 };
 
 export const localLogin = async (ctx: Context) => {
-  ctx.body = "local login";
+  const { nickname, password } = ctx.request.body;
+  let account = null;
+
+  try {
+    account = await User.findOne({
+      where: { nickname },
+    });
+    if (!account) {
+      ctx.status = 400;
+      ctx.body = { result: "존재하지 않는 사용자입니다." };
+      return;
+    }
+
+    const validatePassword = await bcrypt.compare(password, account.password);
+    if (!validatePassword) {
+      ctx.status = 403;
+      ctx.body = { result: "비밀번호가 일치하지 않습니다." };
+      return;
+    }
+
+    delete account.password;
+    delete account.email;
+    const token = await generateToken(account);
+    ctx.cookies.set("access_token", token as string, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    });
+  } catch (error) {
+    ctx.throw(500, error);
+  }
+
+  ctx.status = 200;
+  ctx.body = { result: account.nickname };
+  return;
 };
 
 export const exists = async (ctx: Context) => {
