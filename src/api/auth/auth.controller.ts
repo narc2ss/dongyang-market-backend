@@ -49,13 +49,14 @@ export const exists = async (ctx: Context) => {
 
 export const email = async (ctx: Context) => {
   const { email } = ctx.request.body;
-  const { service, id, password } = process.env;
+  const { EMAIL_SERVICE, EMAIL_ID, EMAIL_PASSWORD } = process.env;
+  console.log(EMAIL_PASSWORD, EMAIL_ID, EMAIL_SERVICE);
 
   const smtpTransport = nodemailer.createTransport({
-    service: service,
+    service: EMAIL_SERVICE,
     auth: {
-      user: id,
-      pass: password,
+      user: EMAIL_ID,
+      pass: EMAIL_PASSWORD,
     },
     tls: {
       rejectUnauthorized: false,
@@ -65,7 +66,7 @@ export const email = async (ctx: Context) => {
   const emailCode = await generateCode();
 
   const mailOptions = {
-    from: id,
+    from: EMAIL_ID,
     to: email,
     subject: "nodemailer test",
     text: `
@@ -74,11 +75,8 @@ export const email = async (ctx: Context) => {
     `,
   };
 
-  await smtpTransport.sendMail(mailOptions, (e, res) => {
-    if (e) ctx.throw(500, e);
-    smtpTransport.close();
-    return (ctx.body = res);
-  });
+  await smtpTransport.sendMail(mailOptions);
+  ctx.status = 200;
 };
 
 export const logout = async (ctx: Context) => {
