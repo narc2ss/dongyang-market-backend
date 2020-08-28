@@ -4,8 +4,7 @@ import * as bcrypt from "bcrypt";
 import * as nodemailer from "nodemailer";
 
 import User from "../../../models/user";
-import generateCode from "../../lib";
-import generateToken from "../../lib/generatorToken";
+import { generateToken, generateCode } from "../../lib";
 
 dotenv.config();
 
@@ -130,5 +129,11 @@ export const email = async (ctx: Context) => {
 };
 
 export const logout = async (ctx: Context) => {
-  ctx.body = "log out";
+  ctx.cookies.set("access_token", null, {
+    maxAge: 0,
+    httpOnly: true,
+  });
+  ctx.status = 204;
+  ctx.body = { result: "로그아웃 되었습니다." };
+  return;
 };
