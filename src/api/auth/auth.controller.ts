@@ -5,6 +5,7 @@ import * as nodemailer from "nodemailer";
 
 import User from "../../../models/user";
 import generateCode from "../../lib";
+import generateToken from "../../lib/generatorToken";
 
 dotenv.config();
 
@@ -27,10 +28,22 @@ export const localRegister = async (ctx: Context) => {
       ctx.body = "이미 사용중인 이메일입니다.";
     }
     const hashedPassword = await bcrypt.hash(password, 12);
-    await User.create({
+    const account = await User.create({
       nickname,
       email,
       password: hashedPassword,
+    });
+
+    delete account.password;
+    delete account.email;
+
+    let token = await generateToken(account);
+
+    console.log(token);
+
+    ctx.cookies.set("access_token", token as string, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
     });
     ctx.status = 201;
     ctx.body = "회원가입이 완료되었습니다.";
