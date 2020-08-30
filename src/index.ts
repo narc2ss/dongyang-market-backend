@@ -1,11 +1,12 @@
+import bodyParser = require("koa-bodyparser");
 import * as dotenv from "dotenv";
 import * as Koa from "koa";
 import * as Router from "koa-router";
 import * as morgan from "koa-morgan";
+import * as cors from "@koa/cors";
 
 import api from "./api";
 import { sequelize } from "../models";
-import bodyParser = require("koa-bodyparser");
 import { jwtMiddleware } from "./middleware";
 
 dotenv.config();
@@ -15,6 +16,7 @@ const app = new Koa();
 const router = new Router();
 
 app.use(morgan("dev"));
+app.use(cors());
 app.use(bodyParser());
 sequelize
   .sync({ force: false })
