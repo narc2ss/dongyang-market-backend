@@ -56,6 +56,7 @@ export const localRegister = async (ctx: Context) => {
 export const localLogin = async (ctx: Context) => {
   const { nickname, password } = ctx.request.body;
   let account = null;
+  let payload = null;
 
   try {
     account = await User.findOne({
@@ -74,7 +75,7 @@ export const localLogin = async (ctx: Context) => {
       return;
     }
 
-    const payload = {
+    payload = {
       id: account.id,
       nickname: account.nickname,
     };
@@ -88,7 +89,7 @@ export const localLogin = async (ctx: Context) => {
   }
 
   ctx.status = 200;
-  ctx.body = { result: account.nickname };
+  ctx.body = payload;
   return;
 };
 
@@ -101,7 +102,7 @@ export const check = async (ctx: any) => {
   }
 
   ctx.status = 200;
-  ctx.body = { result: user };
+  ctx.body = user;
   return;
 };
 
