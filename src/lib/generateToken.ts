@@ -7,7 +7,12 @@ dotenv.config();
 
 const jwtSecret = process.env.JWT_SECRET;
 
-export default function generateToken(payload: User) {
+export type Payload = {
+  id: number;
+  nickname: string;
+};
+
+export default function generateToken(payload: Payload) {
   return new Promise((resolve, reject) => {
     jwt.sign(
       { ...payload },

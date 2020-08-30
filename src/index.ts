@@ -6,6 +6,7 @@ import * as morgan from "koa-morgan";
 import api from "./api";
 import { sequelize } from "../models";
 import bodyParser = require("koa-bodyparser");
+import { jwtMiddleware } from "./middleware";
 
 dotenv.config();
 const PORT = process.env.PORT || 4000;
@@ -19,6 +20,7 @@ sequelize
   .sync({ force: false })
   .then(() => console.log("Success to connected database"))
   .catch((err) => console.error(err));
+app.use(jwtMiddleware);
 
 router.use("/api", api.routes());
 

@@ -36,9 +36,11 @@ export const localRegister = async (ctx: Context) => {
       password: hashedPassword,
     });
 
-    delete account.password;
-    delete account.email;
-    const token = await generateToken(account);
+    const payload = {
+      id: account.id,
+      nickname: account.nickname,
+    };
+    const token = await generateToken(payload);
     ctx.cookies.set("access_token", token as string, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
@@ -72,9 +74,11 @@ export const localLogin = async (ctx: Context) => {
       return;
     }
 
-    delete account.password;
-    delete account.email;
-    const token = await generateToken(account);
+    const payload = {
+      id: account.id,
+      nickname: account.nickname,
+    };
+    const token = await generateToken(payload);
     ctx.cookies.set("access_token", token as string, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
@@ -88,8 +92,17 @@ export const localLogin = async (ctx: Context) => {
   return;
 };
 
-export const exists = async (ctx: Context) => {
-  ctx.body = "exists";
+export const check = async (ctx: any) => {
+  const { user } = ctx.request;
+
+  if (!user) {
+    ctx.status = 403;
+    return;
+  }
+
+  ctx.status = 200;
+  ctx.body = { result: user };
+  return;
 };
 
 export const email = async (ctx: Context) => {

@@ -2,7 +2,7 @@ import * as Router from "koa-router";
 import {
   localRegister,
   localLogin,
-  exists,
+  check,
   logout,
   email,
 } from "./auth.controller";
@@ -11,7 +11,7 @@ const auth = new Router();
 
 auth.post("/register/local", localRegister);
 auth.post("/login/local", localLogin);
-auth.post("/exists/:key(email|username)/:value", exists);
+auth.get("/check", check);
 auth.get("/email", email);
 auth.post("/logout", logout);
 
