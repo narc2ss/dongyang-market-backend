@@ -24,6 +24,7 @@ const config: IConfigGroup = {
     database: DB_NAME,
     host: DB_HOST,
     dialect: "mariadb",
+    timezone: "Asia/soul",
   },
   test: {
     username: DB_USER,
