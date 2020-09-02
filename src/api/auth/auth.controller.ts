@@ -75,24 +75,24 @@ export const localLogin = async (ctx: Context) => {
       return;
     }
 
+    payload = {
+      id: account.id,
+      nickname: account.nickname,
+    };
     const token = await generateToken(payload);
     ctx.cookies.set("access_token", token as string, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
     });
+    ctx.status = 200;
 
-    payload = {
-      id: account.id,
-      nickname: account.nickname,
-      access_token: token,
-    };
+    console.log("payload", payload);
+
+    ctx.body = payload;
+    return;
   } catch (error) {
     ctx.throw(500, error);
   }
-
-  ctx.status = 200;
-  ctx.body = payload;
-  return;
 };
 
 export const check = async (ctx: any) => {

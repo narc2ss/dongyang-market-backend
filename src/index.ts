@@ -15,12 +15,13 @@ import { jwtMiddleware } from "./middleware";
 
 dotenv.config();
 const PORT = process.env.PORT || 4000;
+const FRONT_SERVER = process.env.FRONT_SERVER;
 
 const app = new Koa();
 const router = new Router();
 
 app.use(morgan("dev"));
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(cors({ origin: FRONT_SERVER, credentials: true }));
 app.use(bodyParser());
 sequelize
   .sync({ force: false })

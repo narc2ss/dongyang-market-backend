@@ -1,8 +1,6 @@
 import * as dotenv from "dotenv";
 import * as jwt from "jsonwebtoken";
 
-import User from "../../models/user";
-
 dotenv.config();
 
 const jwtSecret = process.env.JWT_SECRET;
@@ -15,7 +13,7 @@ export type Payload = {
 export default function generateToken(payload: Payload) {
   return new Promise((resolve, reject) => {
     jwt.sign(
-      { ...payload },
+      payload,
       jwtSecret,
       {
         expiresIn: "7d",

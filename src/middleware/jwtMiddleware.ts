@@ -5,7 +5,6 @@ import { generateToken, decodeToken } from "../lib";
 const jwtMiddleware = async (ctx: any, next: Next) => {
   const token = ctx.cookies.get("access_token");
   if (!token) {
-    console.log("no token");
     return next();
   }
 
