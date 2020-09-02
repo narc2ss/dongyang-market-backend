@@ -10,7 +10,6 @@ const jwtMiddleware = async (ctx: any, next: Next) => {
 
   try {
     const decoded: any = await decodeToken(token);
-    console.log("decoded", decoded);
 
     if (Date.now() / 1000 - decoded.iat > 60 * 60 * 24) {
       const { id, nickname } = decoded;
