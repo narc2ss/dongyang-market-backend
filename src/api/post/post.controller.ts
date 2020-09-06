@@ -20,7 +20,19 @@ export const createPost = async (ctx: Context) => {
 };
 
 export const getPost = async (ctx: Context) => {
-  ctx.body = "getPost";
+  const { id } = ctx.params;
+
+  try {
+    const post = await Post.findOne({
+      where: {
+        id,
+      },
+    });
+    ctx.status = 200;
+    ctx.body = post;
+  } catch (error) {
+    ctx.throw(500, error);
+  }
 };
 
 export const editPost = async (ctx: Context) => {
