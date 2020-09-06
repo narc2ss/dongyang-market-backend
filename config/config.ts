@@ -32,6 +32,7 @@ const config: IConfigGroup = {
     database: DB_NAME,
     host: DB_HOST,
     dialect: "mariadb",
+    timezone: "Asia/soul",
   },
   production: {
     username: DB_USER,
@@ -39,6 +40,7 @@ const config: IConfigGroup = {
     database: DB_NAME,
     host: DB_HOST,
     dialect: "mariadb",
+    timezone: "Asia/soul",
   },
 };
 
