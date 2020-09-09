@@ -4,20 +4,21 @@ import * as Koa from "koa";
 import * as Router from "koa-router";
 import * as morgan from "koa-morgan";
 import * as cors from "@koa/cors";
-import * as serve from "koa-static";
-import * as path from "path";
-import * as fs from "fs";
-import * as send from "koa-send";
+import * as http from "http";
+import * as socketio from "socket.io";
 
 import api from "./api";
 import { sequelize } from "../models";
 import { jwtMiddleware } from "./middleware";
+import { callbackPromise } from "nodemailer/lib/shared";
 
 dotenv.config();
 const PORT = process.env.PORT || 4000;
 const FRONT_SERVER = process.env.FRONT_SERVER;
 
 const app = new Koa();
+const server = http.createServer(app.callback());
+const io = socketio(server);
 const router = new Router();
 
 app.use(morgan("dev"));
@@ -30,6 +31,22 @@ sequelize
 app.use(jwtMiddleware);
 
 router.use("/api", api.routes());
+
+io.on("connection", (socket) => {
+  console.log("----");
+  socket.on("join", ({ postId, sellerId, userId }, callbackPromise) => {
+    socket.emit("message", {
+      user: "admin",
+      text: "hello world~",
+    });
+
+    callbackPromise();
+  });
+
+  socket.on("disconnect", () => {
+    console.log("user had left");
+  });
+});
 
 app.use(router.routes()).use(router.allowedMethods());
 
@@ -48,4 +65,4 @@ app.use(router.routes()).use(router.allowedMethods());
 //   await send(ctx, "index.html", { root: __dirname + "/public" });
 // });
 
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
