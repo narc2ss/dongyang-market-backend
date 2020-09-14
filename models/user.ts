@@ -1,6 +1,7 @@
 import { Model, DataTypes, NOW } from "sequelize";
 import { sequelize } from "./sequelize";
 import { dbType } from ".";
+import Post from "./post";
 
 class User extends Model {
   public readonly id!: number;
@@ -37,6 +38,8 @@ User.init(
   }
 );
 
-export const associate = (db: dbType) => {};
+export const associate = (db: dbType) => {
+  User.hasMany(Post, { as: "post" });
+};
 
 export default User;

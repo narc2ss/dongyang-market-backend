@@ -1,10 +1,11 @@
 import { Model, DataTypes } from "sequelize";
 import { sequelize } from "./sequelize";
 import { dbType } from ".";
+import User from "./user";
 
 class Post extends Model {
   public readonly id!: number;
-  public seller!: number;
+  // public seller!: number;
   public title!: string;
   public price!: number;
   public description!: string;
@@ -15,10 +16,10 @@ class Post extends Model {
 
 Post.init(
   {
-    seller: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
+    // seller: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: false,
+    // },
     title: {
       type: DataTypes.STRING(100),
       allowNull: false,
@@ -45,6 +46,8 @@ Post.init(
   }
 );
 
-export const associate = (db: dbType) => {};
+export const associate = (db: dbType) => {
+  Post.belongsTo(User);
+};
 
 export default Post;

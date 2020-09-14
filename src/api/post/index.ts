@@ -6,7 +6,7 @@ const post = new Router();
 
 post.post("/", createPost);
 post.get("/:id", getPost);
-post.patch("/:id", editPost);
+post.patch("/", editPost);
 post.delete("/:id", deletePost);
 
 export default post;

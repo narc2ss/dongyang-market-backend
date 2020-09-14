@@ -10,3 +10,4 @@ const db = {
 export type dbType = typeof db;
 
 associateUser(db);
+associatePost(db);
