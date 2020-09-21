@@ -27,3 +27,21 @@ export const search = async (ctx: Context) => {
     ctx.throw(500, error);
   }
 };
+
+export const getSellList = async (ctx: Context) => {
+  console.log("sell");
+  const { id } = ctx.params;
+  
+  try {
+    const sellList = await Post.findAll({
+      where: {
+        UserId: id,
+        status: "0",
+      },
+    });
+    ctx.status = 200;
+    ctx.body = sellList;
+  } catch (error) {
+    ctx.throw(500, error);
+  }
+};
