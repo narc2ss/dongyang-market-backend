@@ -29,9 +29,8 @@ export const search = async (ctx: Context) => {
 };
 
 export const getSellList = async (ctx: Context) => {
-  console.log("sell");
   const { id } = ctx.params;
-  
+
   try {
     const sellList = await Post.findAll({
       where: {

@@ -44,7 +44,6 @@ export const getPost = async (ctx: Context) => {
         id,
       },
     });
-    console.log(post);
     ctx.status = 200;
     ctx.body = post;
   } catch (error) {
